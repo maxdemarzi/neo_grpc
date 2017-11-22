@@ -4,11 +4,17 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.junit.Assert;
 import org.neo4j.driver.v1.*;
+import org.neo4j.test.server.HTTP;
 import org.openjdk.jmh.annotations.*;
 
+import javax.ws.rs.core.HttpHeaders;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonMap;
 
 
 @State(Scope.Benchmark)
@@ -63,8 +69,21 @@ public class Neo4jGRPCBenchmark {
                         return null;
                     });
         }
+    }
 
+    @Benchmark
+    @Warmup(iterations = 10)
+    @Measurement(iterations = 50)
+    @Fork(2)
+    @Threads(4)
+    @BenchmarkMode(Mode.Throughput)
+    @OutputTimeUnit(TimeUnit.SECONDS)
+    public void measureHTTPRequest() throws Exception {
+        HTTP.Response response = HTTP.withHeaders(HttpHeaders.AUTHORIZATION, "Basic bmVvNGo6c3dvcmRmaXNo").POST("http://localhost:7474/db/data/transaction/commit", HTTPQUERY);
+        Assert.assertEquals("\"max\"", response.get("results").get(0).get("data").get(0).get("row").get(0).toString());
     }
 
     private static final String QUERY = "MATCH (n:Person) WHERE n.name = 'max' RETURN n.name";
+    private static final Map HTTPQUERY =
+                singletonMap("statements",asList(singletonMap("statement", "MATCH (n:Person) WHERE n.name = 'max' RETURN n.name")));
 }
