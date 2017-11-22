@@ -9,7 +9,6 @@ import org.openjdk.jmh.annotations.*;
 
 import javax.ws.rs.core.HttpHeaders;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -44,13 +43,7 @@ public class Neo4jGRPCBenchmark {
     @OutputTimeUnit(TimeUnit.SECONDS)
     public void measuregRPCRequest() throws IOException {
         CypherQueryString queryString = CypherQueryString.newBuilder().setQuery(QUERY).build();
-        CypherQueryResult response;
-
-        Iterator<CypherQueryResult> iterator = blockingStub.executeQuery(queryString);
-        while (iterator.hasNext()) {
-            response = iterator.next();
-            Assert.assertEquals("{n.name=max}", response.getResult());
-        }
+        Assert.assertEquals("{n.name=max}", blockingStub.executeQuery(queryString).next().getResult());
     }
 
     @Benchmark
