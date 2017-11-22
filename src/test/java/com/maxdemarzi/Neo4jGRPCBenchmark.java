@@ -31,9 +31,9 @@ public class Neo4jGRPCBenchmark {
 
     @Benchmark
     @Warmup(iterations = 10)
-    @Measurement(iterations = 20)
-    @Fork(1)
-    @Threads(1)
+    @Measurement(iterations = 50)
+    @Fork(2)
+    @Threads(4)
     @BenchmarkMode(Mode.Throughput)
     @OutputTimeUnit(TimeUnit.SECONDS)
     public void measuregRPCRequest() throws IOException {
@@ -45,14 +45,13 @@ public class Neo4jGRPCBenchmark {
             response = iterator.next();
             Assert.assertEquals("{n.name=max}", response.getResult());
         }
-
     }
 
     @Benchmark
     @Warmup(iterations = 10)
-    @Measurement(iterations = 20)
-    @Fork(1)
-    @Threads(1)
+    @Measurement(iterations = 50)
+    @Fork(2)
+    @Threads(4)
     @BenchmarkMode(Mode.Throughput)
     @OutputTimeUnit(TimeUnit.SECONDS)
     public void measureBoltRequest() throws IOException {
@@ -68,7 +67,4 @@ public class Neo4jGRPCBenchmark {
     }
 
     private static final String QUERY = "MATCH (n:Person) WHERE n.name = 'max' RETURN n.name";
-
-    private static final String MODEL_STATEMENT =
-            "CREATE (n:Person {name:'max'})";
 }
