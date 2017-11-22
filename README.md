@@ -12,3 +12,13 @@ POC gRPC Kernel Extension for Neo4j
 3. (Re)Start Neo4j server.
 
 4. See /test/java/com.maxdemarzi/Neo4jGRPCServiceTest.java file for an example
+
+5. Create some data:
+
+        CREATE (n:Person {name:'max'})
+
+6. Run the Neo4jGRPCBenchmark
+
+        Benchmark                               Mode  Cnt     Score     Error  Units
+        Neo4jGRPCBenchmark.measureBoltRequest  thrpt   20  2181.893 ±  36.498  ops/s
+        Neo4jGRPCBenchmark.measuregRPCRequest  thrpt   20  3916.202 ± 165.504  ops/s

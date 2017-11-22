@@ -12,7 +12,6 @@ public class Neo4jGRPCServiceTest {
     @Rule
     public final Neo4jRule neo4j = new Neo4jRule()
             .withFixture(MODEL_STATEMENT);
-    //// TODO: 11/22/17 Figure out how to initialize kernel extension 
 
     private static Neo4jQueryGrpc.Neo4jQueryBlockingStub blockingStub;
 
@@ -24,7 +23,6 @@ public class Neo4jGRPCServiceTest {
                 .usePlaintext(true)
                 .build();
         blockingStub = Neo4jQueryGrpc.newBlockingStub(channel);
-
     }
 
     @Test
