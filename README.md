@@ -20,5 +20,5 @@ POC gRPC Kernel Extension for Neo4j
 6. Run the Neo4jGRPCBenchmark
 
         Benchmark                               Mode  Cnt     Score     Error  Units
-        Neo4jGRPCBenchmark.measureBoltRequest  thrpt   20  2181.893 ±  36.498  ops/s
-        Neo4jGRPCBenchmark.measuregRPCRequest  thrpt   20  3916.202 ± 165.504  ops/s
+        Neo4jGRPCBenchmark.measureBoltRequest  thrpt  100  5946.789 ±  68.063  ops/s
+        Neo4jGRPCBenchmark.measuregRPCRequest  thrpt  100  9321.269 ± 239.146  ops/s
